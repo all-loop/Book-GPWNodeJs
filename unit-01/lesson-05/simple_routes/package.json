@@ -1,0 +1,10 @@
+{
+  "name": "simple-routes",
+  "description": "Ejemplificando el uso de rutas dentro de nuestra sencilla web app",
+  "private": true,
+  "main": "main.js",
+  "author": "GFU",
+  "dependencies": {
+    "http-status-codes": "^2.1.4"
+  }
+}
