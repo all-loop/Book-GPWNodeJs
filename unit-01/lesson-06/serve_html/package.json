@@ -1,0 +1,10 @@
+{
+  "name": "serve-html",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "author": "GFU",
+  "dependencies": {
+    "http-status-codes": "^2.1.4"
+  }
+}
