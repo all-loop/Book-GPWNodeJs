@@ -5,26 +5,33 @@ const httpStatus = require("http-status-codes").StatusCodes;
 const port = 3000;
 const app = http.createServer();
 
-// Configuramos las ruta para mapear los archivos HTML
-const routeMAp = {
-  "/": "views/index.html",
+/**
+ * En este ejemplo solo servimos aquellos archivmos HTML
+ * que coincidan con la URL solicitada.
+ */
+
+const getViewURL = (url) => {
+  return `views${url}.html`;
 };
 
 app.on("request", (req, res) => {
-  res.writeHead(httpStatus.OK, {
-    "Content-Type": "text/html",
-  });
-
-  if (routeMAp[req.url]) {
-    // Leemos el archivo mapeado a la ruta
-    fs.readFile(routeMAp[req.url], (err, data) => {
-      // Respondemos como contenido el archivo
+  // Obtenemos el string a la ruta del archivo
+  let viewURL = getViewURL(req.url);
+  // Buscamos el archivo en nuestro sistema de archivos
+  fs.readFile(viewURL, (err, data) => {
+    if (err) {
+      res.writeHead(httpStatus.NOT_FOUND, {
+        "Content-Type": "text/html",
+      });
+      res.write("<h1>FILE NOT FOUND</h1>");
+    } else {
+      res.writeHead(httpStatus.OK, {
+        "Content-Type": "text/html",
+      });
       res.write(data);
-      res.end();
-    });
-  } else {
-    res.end("<h1>Sorry, not found.</h1>");
-  }
+    }
+    res.end();
+  });
 });
 
 app.listen(port);
