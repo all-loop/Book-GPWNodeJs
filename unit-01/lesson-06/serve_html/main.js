@@ -6,33 +6,62 @@ const port = 3000;
 const app = http.createServer();
 
 /**
- * En este ejemplo solo servimos aquellos archivmos HTML
- * que coincidan con la URL solicitada.
+ * En este ejemplo mostramos como enrutar nuestra aplicación
+ * en base al tipo de archivos en nuestro proyecto.
  */
 
-const getViewURL = (url) => {
-  return `views${url}.html`;
+// Función que maneja los errores de nuestra app
+const sendErrorResponse = (res) => {
+  res.writeHead(httpStatus.NOT_FOUND, {
+    "Content-Type": "text/html",
+  });
+  res.write("<h1>File Not Found!</h1>");
+  res.end();
+};
+
+// Función para comprobar la existencia de un archivo
+const customReadFile = (file_path, res) => {
+  if (fs.existsSync(file_path)) {
+    fs.readFile(file_path, (error, data) => {
+      if (error) {
+        console.log(error);
+        sendErrorResponse(res);
+        return;
+      }
+      res.write(data);
+      res.end();
+    });
+  } else {
+    sendErrorResponse(res);
+  }
 };
 
 app.on("request", (req, res) => {
-  // Obtenemos el string a la ruta del archivo
-  let viewURL = getViewURL(req.url);
-  // Buscamos el archivo en nuestro sistema de archivos
-  fs.readFile(viewURL, (err, data) => {
-    if (err) {
-      res.writeHead(httpStatus.NOT_FOUND, {
-        "Content-Type": "text/html",
-      });
-      res.write("<h1>FILE NOT FOUND</h1>");
-    } else {
-      res.writeHead(httpStatus.OK, {
-        "Content-Type": "text/html",
-      });
-      res.write(data);
-    }
-    res.end();
-  });
+  let url = req.url;
+  if (url.indexOf(".html") !== -1) {
+    res.writeHead(httpStatus.OK, {
+      "Content-Type": "text/html",
+    });
+    customReadFile(`./views${url}`, res);
+  } else if (url.indexOf(".js") !== -1) {
+    res.writeHead(httpStatus.OK, {
+      "Content-Type": "text/javascript",
+    });
+    customReadFile(`./public/js${url}`, res);
+  } else if (url.indexOf(".css") !== -1) {
+    res.writeHead(httpStatus.OK, {
+      "Content-Type": "text/csss",
+    });
+    customReadFile(`./public/css${url}`, res);
+  } else if (url.indexOf(".png") !== -1) {
+    res.writeHead(httpStatus.OK, {
+      "Content-Type": "image/png",
+    });
+    customReadFile(`./public/images${url}`, res);
+  } else {
+    sendErrorResponse(res);
+  }
 });
 
-app.listen(port);
-console.log(`The server has started and listening on port number: ${port}`);
+app.listen(3000);
+console.log(`The server is listening on port number: ${port}`);
