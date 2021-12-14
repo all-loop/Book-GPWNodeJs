@@ -1,66 +1,55 @@
 const fs = require("fs");
 const http = require("http");
 const httpStatus = require("http-status-codes").StatusCodes;
+const router = require("./router");
 
 const port = 3000;
 const app = http.createServer();
 
 /**
- * En este ejemplo mostramos como enrutar nuestra aplicación
- * en base al tipo de archivos en nuestro proyecto.
+ * En este ejemplo manejamos la rutas a través de un módulo
+ * externo.
  */
 
-// Función que maneja los errores de nuestra app
-const sendErrorResponse = (res) => {
-  res.writeHead(httpStatus.NOT_FOUND, {
-    "Content-Type": "text/html",
-  });
-  res.write("<h1>File Not Found!</h1>");
-  res.end();
+const plainTextContentType = {
+  "Content-Type": "text/plain",
+};
+const htmlContentType = {
+  "Content-Type": "text/html",
 };
 
-// Función para comprobar la existencia de un archivo
-const customReadFile = (file_path, res) => {
-  if (fs.existsSync(file_path)) {
-    fs.readFile(file_path, (error, data) => {
-      if (error) {
-        console.log(error);
-        sendErrorResponse(res);
-        return;
-      }
-      res.write(data);
-      res.end();
-    });
-  } else {
-    sendErrorResponse(res);
-  }
+// customReadFile es una función personalizada para la
+// lectura de archivos de nuestro sistema
+const customReadFile = (file, res) => {
+  fs.readFile(file, (error, data) => {
+    if (error) {
+      console.log(`Error reading the file: ${error}`);
+      res.writeHead(httpStatus.INTERNAL_SERVER_ERROR, plainTextContentType);
+      res.end("Server Error.");
+      return;
+    }
+    res.end(data);
+  });
 };
+
+// Registramos algunas rutas
+router.get("/", (req, res) => {
+  res.writeHead(httpStatus.OK, plainTextContentType);
+  res.end("INDEX");
+});
+
+router.get("/index.html", (req, res) => {
+  res.writeHead(httpStatus.OK, htmlContentType);
+  customReadFile("views/index.html", res);
+});
+
+router.post("/", (req, res) => {
+  res.writeHead(httpStatus.OK, plainTextContentType);
+  res.end("POSTED");
+});
 
 app.on("request", (req, res) => {
-  let url = req.url;
-  if (url.indexOf(".html") !== -1) {
-    res.writeHead(httpStatus.OK, {
-      "Content-Type": "text/html",
-    });
-    customReadFile(`./views${url}`, res);
-  } else if (url.indexOf(".js") !== -1) {
-    res.writeHead(httpStatus.OK, {
-      "Content-Type": "text/javascript",
-    });
-    customReadFile(`./public/js${url}`, res);
-  } else if (url.indexOf(".css") !== -1) {
-    res.writeHead(httpStatus.OK, {
-      "Content-Type": "text/csss",
-    });
-    customReadFile(`./public/css${url}`, res);
-  } else if (url.indexOf(".png") !== -1) {
-    res.writeHead(httpStatus.OK, {
-      "Content-Type": "image/png",
-    });
-    customReadFile(`./public/images${url}`, res);
-  } else {
-    sendErrorResponse(res);
-  }
+  router.handle(req, res);
 });
 
 app.listen(3000);
