@@ -1,0 +1,12 @@
+{
+  "name": "confetti_cuisine",
+  "description": "A site for booking classes for cooking",
+  "version": "1.0.0",
+  "author": "GFU-Code",
+  "main": "main.js",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "http-status-codes": "^2.1.4"
+  }
+}
