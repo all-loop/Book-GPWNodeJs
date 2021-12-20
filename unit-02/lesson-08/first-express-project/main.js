@@ -7,6 +7,12 @@ const port = 3000;
 
 // Mapeamos una Ruta a un callback para una solicitud GET
 app.get("/", (req, res) => {
+  // Extrayendo de forma fácil el contenido en el objeto request
+  console.log(req.params);
+  console.log(req.body);
+  console.log(req.url);
+  console.log(req.query);
+
   res.send("Hello, Universe!");
 });
 
