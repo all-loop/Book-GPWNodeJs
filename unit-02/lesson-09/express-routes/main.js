@@ -3,6 +3,13 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// Definiendo un middleware que registre cada solicitud
+// realizada al servidor
+app.use((req, res, next) => {
+  console.log(`request made to: ${req.url}`);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Página principal");
 });
