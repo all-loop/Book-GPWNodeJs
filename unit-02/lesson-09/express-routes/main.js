@@ -3,27 +3,21 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-// Definiendo un middleware que registre cada solicitud
-// realizada al servidor
-app.use((req, res, next) => {
-  console.log(`request made to: ${req.url}`);
-  next();
+// Middlewares utiles para parsear los datos entrantes
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Obteniendo los datos solicitados a través de un método POST
+app.post("/", (req, res) => {
+  console.log(req.body);
+  console.log(req.query);
+  res.send("POST Successful!");
 });
 
+// Obteniendo los datos solicitados a través de una query
 app.get("/", (req, res) => {
-  res.send("Página principal");
-});
-
-// Express tiene básicamente tres maneras recibir datos del
-// usuario en sus rutas:
-// 1. A través del cuerpo de la petición (req.body)
-// 2. Por medio de un parámetro, característica principal
-//  de servicios REST (req.params)
-// 3. A través de peticiones que sean seguidas de una
-//  consulta (req.query)
-app.get("/items/:vegetable", (req, res) => {
-  let veg = req.params.vegetable;
-  res.send(`This is the page for ${veg}`);
+  console.log(req.query);
+  res.send("Hola Mundo!");
 });
 
 app.listen(port, () => {
