@@ -1,5 +1,8 @@
 const express = require("express");
 
+// Módulos propios de la aplicación
+const homeController = require("./controllers/homeController");
+
 const app = express();
 const port = 3000;
 
@@ -7,18 +10,11 @@ const port = 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Obteniendo los datos solicitados a través de un método POST
-app.post("/", (req, res) => {
-  console.log(req.body);
-  console.log(req.query);
-  res.send("POST Successful!");
-});
+// Middleware para registar las rutas solicitadas
+app.use(homeController.logRequestPaths);
 
-// Obteniendo los datos solicitados a través de una query
-app.get("/", (req, res) => {
-  console.log(req.query);
-  res.send("Hola Mundo!");
-});
+app.get("/", homeController.welcome);
+app.get("/items/:vegetable", homeController.sendReqParam);
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
