@@ -1,0 +1,18 @@
+{
+  "name": "express-templates",
+  "description": "Estudiando el renderizado de vistas con Express.js",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "author": "GFU",
+  "scripts": {
+    "start": "nodemon main"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
