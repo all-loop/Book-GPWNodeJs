@@ -16,6 +16,8 @@ app.set("view engine", "ejs");
 // layouts le indica a express y ejs que cada vista que sea renderizada usara como plantilla de diseño una llamada layouts.
 // De esta manera podemos evitar la repetición de código HTML al hacer que varios archivos compartan cosas en común.
 app.use(layouts);
+// Establecemos nuestra carpeta public como el lugar donde se encontrará los activos de acceso público de nuestro proyecto.
+app.use(express.static("public"));
 
 app.get("/", homeController.welcomeClient);
 app.get("/name/:myName", homeController.respondWithName);
