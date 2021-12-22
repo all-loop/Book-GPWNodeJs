@@ -1,10 +1,12 @@
 const respondWithName = (req, res) => {
-  // render nos permite renderizar una vista personalizada
-  res.render("index");
+  let name = req.params.myName;
+  // render nos permite renderizar una vista personalizada.
+  // Pasamos una variable local a una vista por renderizar
+  res.render("index", { name });
 };
 
 const welcomeClient = (req, res) => {
-  res.send("Hi, visit the path /name");
+  res.send("Hi, visit the path /name/yourname");
 };
 
 module.exports = {
