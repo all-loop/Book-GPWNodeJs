@@ -4,6 +4,7 @@ const layouts = require("express-ejs-layouts");
 // Mis módulos
 // ---
 const homeController = require("./controllers/homeController");
+const errorController = require("./controllers/errorController");
 
 // Creación del servidor
 const app = express();
@@ -34,6 +35,10 @@ app.get("/", (req, res) => {
 app.get("/courses", homeController.showCourses);
 app.get("/contact", homeController.showSignUp);
 app.post("/contact", homeController.postedSignUpForm);
+
+// Middleware para manejar los errores
+app.use(errorController.pageNotFoundError);
+app.use(errorController.internalServerError);
 
 // Levantando el servidor
 app.listen(app.get("port"), () => {
