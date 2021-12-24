@@ -1,4 +1,5 @@
 const express = require("express");
+const layouts = require("express-ejs-layouts");
 
 // Mis módulos
 // ---
@@ -9,9 +10,13 @@ const app = express();
 
 // Configuraciones del servidor
 app.set("port", process.env.PORT || 3000);
+app.set("view engine", "ejs");
 
 // Middlewares del servidor
 // ---
+
+// middleware para usar el módulo layout en nuestras vistas
+app.use(layouts);
 
 // middlewares para interpretar las solicitudes entrantes.
 // Le indicamos a la aplicación que use body-parser para el
@@ -21,7 +26,7 @@ app.use(express.json());
 
 // Enturamiento
 app.get("/", (req, res) => {
-  res.send("Wecolme to Confetti Cuisine!");
+  res.render("index");
 });
 app.get("/courses", homeController.showCourses);
 app.get("/contact", homeController.showSignUp);
