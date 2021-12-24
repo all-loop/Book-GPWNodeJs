@@ -2,12 +2,12 @@
   <div class="col-sm-6"><img src="/images/product.jpg" alt="" /></div>
   <div class="col-sm-6">
     <h1 class="title">Learn to cook cutting edge food</h1>
-    <h3>Our Courses:</h3>
-    <ul>
-      <li>Bread Making</li>
-      <li>Pasta Milan</li>
-      <li>Dark Chocolate Delight</li>
-    </ul>
+    <h2>Our Courses:</h2>
+    <% offeredCourses.forEach((course) => { %>
+    <h5><%= course.title %></h5>
+    <span>$<%= course.cost %></span>
+    <% }); %>
+    <hr />
     <a href="/contact.html">Contact Us</a> today!
   </div>
 </div>
