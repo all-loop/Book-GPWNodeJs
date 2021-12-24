@@ -18,6 +18,9 @@ app.set("view engine", "ejs");
 // middleware para usar el módulo layout en nuestras vistas
 app.use(layouts);
 
+// middleware que establece nuestra la carpeta pública al cliente
+app.use(express.static("public"));
+
 // middlewares para interpretar las solicitudes entrantes.
 // Le indicamos a la aplicación que use body-parser para el
 // procesamiento de los parámetros codificados en la URL y JSON.
