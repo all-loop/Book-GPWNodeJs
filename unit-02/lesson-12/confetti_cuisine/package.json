@@ -1,0 +1,20 @@
+{
+  "name": "confetti-cuisine",
+  "version": "2.0.0",
+  "description": "Refactorizando nuestra App con la ayuda de express.js. Confetti Cuisine is a site for booking classes for cooking",
+  "private": true,
+  "author": "GFU",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.16.3",
+    "express-ejs-layouts": "^2.5.1",
+    "http-status-codes": "^2.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
