@@ -1,5 +1,9 @@
 const express = require("express");
 
+// Mis módulos
+// ---
+const homeController = require("./controllers/homeController");
+
 // Creación del servidor
 const app = express();
 
@@ -19,6 +23,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Wecolme to Confetti Cuisine!");
 });
+app.get("/courses", homeController.showCourses);
+app.get("/contact", homeController.showSignUp);
+app.post("/contact", homeController.postedSignUpForm);
 
 // Levantando el servidor
 app.listen(app.get("port"), () => {
