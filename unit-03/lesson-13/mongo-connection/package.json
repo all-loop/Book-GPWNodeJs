@@ -1,0 +1,11 @@
+{
+  "name": "mongo-connection",
+  "description": "Ejemplifica la conexión a un sistema de base de datos MONGODB",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "GFU",
+  "private": true,
+  "dependencies": {
+    "mongodb": "^4.2.2"
+  }
+}
