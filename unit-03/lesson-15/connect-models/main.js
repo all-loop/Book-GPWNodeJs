@@ -13,6 +13,8 @@ db.on("open", () => {
 
 // Importando nuestros controladores de la aplicación
 const subscriberController = require("./controllers/subscribersController");
+const homeController = require("./controllers/homeController");
+const errorController = require("./controllers/errorController");
 
 const app = express();
 
@@ -23,9 +25,11 @@ app.set("view engine", "ejs");
 // Middlewares
 app.use(layouts);
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Bienvenido a la unidad 03!");
+  res.render("index");
 });
 app.get(
   "/subscribers",
@@ -35,6 +39,12 @@ app.get(
     res.render("subscribers", { subscribers: req.data });
   }
 );
+app.get("/contact", subscriberController.getSubscriptionPage);
+app.post("/subscribe", subscriberController.saveSubscriber);
+
+// Middlewares para manejar errores
+app.use(errorController.pageNotFoundError);
+app.use(errorController.internalServerError);
 
 app.listen(app.get("port"), () => {
   console.log(`Server running on http://localhost:${app.get("port")}`);
