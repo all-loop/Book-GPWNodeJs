@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+// Configuramos mongoose para indicarle que deseamos usar las promesas nativas de ES6
+mongoose.Promise = global.Promise;
+
 const layouts = require("express-ejs-layouts");
 
 // Conectando con la db
