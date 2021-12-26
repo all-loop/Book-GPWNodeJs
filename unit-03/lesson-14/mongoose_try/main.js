@@ -16,31 +16,44 @@ db.on("open", () => {
   console.log("Successfully connected to MongoDB using Mongoose!");
 });
 
-// instanciamos un nuevo subscriptor
-let subscriber1 = new Subscriber({
+// // instanciamos un nuevo subscriptor
+// let subscriber1 = new Subscriber({
+//   name: "Jon Wexler",
+//   email: "jon@wexler.com",
+// });
+// // Guardamos el subscriptor en la db
+// subscriber1.save((error, savedDocument) => {
+//   if (error) {
+//     console.log(error);
+//     return;
+//   }
+//   console.log(savedDocument);
+// });
+
+// // Creamos y guardamos otro subscritor en la db en sólo un paso.
+// Subscriber.create(
+//   {
+//     name: "Jon Wexler2",
+//     email: "jon@jonwexler.com",
+//   },
+//   (error, savedDocument) => {
+//     if (error) {
+//       console.log(error);
+//       return;
+//     }
+//     console.log(savedDocument);
+//   }
+// );
+
+let myQuery = Subscriber.findOne({
   name: "Jon Wexler",
-  email: "jon@wexler.com",
-});
-// Guardamos el subscriptor en la db
-subscriber1.save((error, savedDocument) => {
+}).where("email", /wexler/);
+
+// Ejecutamos una consulta, esta contiene una callback para manejar los errores o los datos devueltos.
+myQuery.exec((error, data) => {
   if (error) {
     console.log(error);
     return;
   }
-  console.log(savedDocument);
+  console.log(data.name);
 });
-
-// Creamos y guardamos otro subscritor en la db en sólo un paso.
-Subscriber.create(
-  {
-    name: "Jon Wexler2",
-    email: "jon@jonwexler.com",
-  },
-  (error, savedDocument) => {
-    if (error) {
-      console.log(error);
-      return;
-    }
-    console.log(savedDocument);
-  }
-);
