@@ -1,0 +1,14 @@
+{
+  "name": "mongoose-try",
+  "description": "Ejemplificando la interacción de nuestra aplicación con el sistema de base de datos MongoDB. Vemos una manera más flexible de estructurar nuestros datos de la BD a través de la librería mongoose.",
+  "version": "1.0.0",
+  "private": true,
+  "author": "GFU",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "mongoose": "^6.1.3"
+  }
+}
