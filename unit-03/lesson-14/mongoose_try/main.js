@@ -12,3 +12,42 @@ const db = mongoose.connection;
 db.on("open", () => {
   console.log("Successfully connected to MongoDB using Mongoose!");
 });
+
+// Creamos un nuevo esquema con mongoose.Schema
+const subscriberSchema = mongoose.Schema({
+  name: String,
+  email: String,
+  zipCode: Number,
+});
+
+// Interactuamos con nuestra db a través de modelos, los que a su vez usan esquemas para su definición.
+const Subscriber = mongoose.model("Subscriber", subscriberSchema);
+
+// instanciamos un nuevo subscriptor
+let subscriber1 = new Subscriber({
+  name: "Jon Wexler",
+  email: "jon@wexler.com",
+});
+// Guardamos el subscriptor en la db
+subscriber1.save((error, savedDocument) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  console.log(savedDocument);
+});
+
+// Creamos y guardamos otro subscritor en la db en sólo un paso.
+Subscriber.create(
+  {
+    name: "Jon Wexler2",
+    email: "jon@jonwexler.com",
+  },
+  (error, savedDocument) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(savedDocument);
+  }
+);
