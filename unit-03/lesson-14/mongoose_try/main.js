@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+// Importamos el/los modelos de nuestra aplicación
+const Subscriber = require("./models/subscriber");
+
 // Configuramos la conexión a la DB
 mongoose.connect("mongodb://localhost:27017/recipe_db", {
   useNewUrlParser: true,
@@ -12,16 +15,6 @@ const db = mongoose.connection;
 db.on("open", () => {
   console.log("Successfully connected to MongoDB using Mongoose!");
 });
-
-// Creamos un nuevo esquema con mongoose.Schema
-const subscriberSchema = mongoose.Schema({
-  name: String,
-  email: String,
-  zipCode: Number,
-});
-
-// Interactuamos con nuestra db a través de modelos, los que a su vez usan esquemas para su definición.
-const Subscriber = mongoose.model("Subscriber", subscriberSchema);
 
 // instanciamos un nuevo subscriptor
 let subscriber1 = new Subscriber({
