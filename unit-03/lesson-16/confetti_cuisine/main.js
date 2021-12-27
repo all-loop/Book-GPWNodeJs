@@ -17,6 +17,7 @@ mongoose.connection.on("open", () => {
 // ---
 const homeController = require("./controllers/homeController");
 const errorController = require("./controllers/errorController");
+const subscriberController = require("./controllers/subscribersController");
 
 // Creación del servidor
 const app = express();
@@ -45,7 +46,9 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.get("/courses", homeController.showCourses);
-app.get("/contact", homeController.showSignUp);
+app.get("/contact", subscriberController.getSubscriptionPage);
+app.get("/subscribers", subscriberController.getAllSubscribers);
+app.post("/subscribe", subscriberController.saveSubscriber);
 app.post("/contact", homeController.postedSignUpForm);
 
 // Middleware para manejar los errores
