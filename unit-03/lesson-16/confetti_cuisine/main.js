@@ -2,6 +2,9 @@ const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 
+// Indicamos a mongoose que usaremos promesas
+mongoose.Promise = global.Promise;
+
 // Establecemos la conexión a nuestra base de datos
 mongoose.connect("mongodb://localhost:27017/confetti_cuisine", {
   useNewUrlParser: true,
