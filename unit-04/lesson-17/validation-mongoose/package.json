@@ -1,0 +1,11 @@
+{
+  "name": "validation-mongoose",
+  "description": "Estudiando la validación de datos ofrecidas por mongoose",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "GFU",
+  "scrips": {},
+  "dependencies": {
+    "mongoose": "^6.1.4"
+  }
+}
