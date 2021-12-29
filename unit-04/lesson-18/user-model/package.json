@@ -1,0 +1,11 @@
+{
+  "name": "building-user-model",
+  "description": "Notas y descripción del proceso de construcción del modelo de usuario para nuestra aplicación",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "GFU",
+  "scripts": {},
+  "dependencies": {
+    "mongoose": "^6.1.4"
+  }
+}
