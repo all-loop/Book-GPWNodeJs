@@ -23,6 +23,7 @@ const subscriberSchema = mongoose.Schema({
       ref: "Course",
     },
   ],
+  timestamps: true,
 });
 
 // Método de instancia para obtener el nombre completo de un subscriptor.
