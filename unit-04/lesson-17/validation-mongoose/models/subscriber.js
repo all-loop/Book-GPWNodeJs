@@ -17,6 +17,12 @@ const subscriberSchema = mongoose.Schema({
     min: [10000, "Zip code too short"],
     max: 99999,
   },
+  courses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
+  ],
 });
 
 // Método de instancia para obtener el nombre completo de un subscriptor.
