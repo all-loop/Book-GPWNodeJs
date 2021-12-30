@@ -5,11 +5,11 @@ const getAllSubscribers = (req, res) => {
   Subcriber.find({})
     .exec()
     .then((subscribers) => {
-      res.render("subscribers", { subscribers });
+      res.render("subscribers/index", { subscribers });
     })
     .catch((error) => {
       console.log(error.message);
-      return [];
+      res.redirect("/");
     })
     .finally(() => {
       console.log("promise <find all subscribers> complete!");
