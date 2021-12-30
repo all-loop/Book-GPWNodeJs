@@ -44,7 +44,7 @@ app.get(
     res.render("subscribers", { subscribers: req.data });
   }
 );
-app.get("/users", userController.index);
+app.get("/users", userController.index, userController.indexView);
 app.get("/courses", courseController.index);
 app.get("/contact", subscriberController.getSubscriptionPage);
 app.post("/subscribe", subscriberController.saveSubscriber);
