@@ -58,10 +58,31 @@ const redirectView = (req, res, next) => {
   next();
 };
 
+// Función para mostrar la información especifica de un
+// usuario
+const show = (req, res, next) => {
+  let userId = req.params.id;
+  User.findById(userId)
+    .then((user) => {
+      res.locals.user = user;
+      next();
+    })
+    .catch((error) => {
+      console.log(`Error fetching user by ID: ${error.message}`);
+      next(error);
+    });
+};
+
+const showView = (req, res) => {
+  res.render("users/show");
+};
+
 module.exports = {
   index,
   indexView,
   newView,
   create,
   redirectView,
+  show,
+  showView,
 };

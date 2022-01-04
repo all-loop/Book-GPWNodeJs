@@ -21,11 +21,11 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
 // middlewares
-app.use("/", router);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(layouts);
+app.use("/", router);
 
 // Enrutamiento (middleware) de la aplicación
 app.get("/", (req, res) => {
@@ -34,6 +34,8 @@ app.get("/", (req, res) => {
 app.get("/users", userController.index, userController.indexView);
 app.get("/users/new", userController.newView);
 app.post("/users/create", userController.create, userController.redirectView);
+
+router.get("/users/get/:id", userController.show, userController.showView);
 
 // Middleware para manejar los errores
 app.use(errorController.pageNotFoundError);
