@@ -19,7 +19,49 @@ const indexView = (req, res) => {
   res.render("users/index");
 };
 
+// Renderiza el formulario para crear un nuevo usuario
+const newView = (req, res) => {
+  res.render("users/new");
+};
+
+// Función para registrar un nuevo usuario en la bd
+const create = (req, res, next) => {
+  let userParams = {
+    name: {
+      first: req.body.first,
+      last: req.body.last,
+    },
+    email: req.body.email,
+    password: req.body.password,
+    zipCode: req.body.zipCode,
+  };
+
+  User.create(userParams)
+    .then((user) => {
+      res.locals.redirect = "/users";
+      res.locals.user = user;
+      next();
+    })
+    .catch((error) => {
+      console.log(`Error saving user: ${error.message}`);
+      next(error);
+    });
+};
+
+// Función que se encarga de redireccionar una acción (vista)
+const redirectView = (req, res, next) => {
+  let redirectPath = res.locals.redirect;
+  if (redirectPath) {
+    res.redirect(redirectPath);
+    return;
+  }
+  next();
+};
+
 module.exports = {
   index,
   indexView,
+  newView,
+  create,
+  redirectView,
 };

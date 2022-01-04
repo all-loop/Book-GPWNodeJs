@@ -16,10 +16,12 @@ const errorController = require("./controllers/errorController");
 
 // Configuraciones del servidor
 const app = express();
+const router = express.Router();
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
 // middlewares
+app.use("/", router);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -30,9 +32,8 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.get("/users", userController.index, userController.indexView);
-app.get("/users/create", (req, res) => {
-  res.render("users/new");
-});
+app.get("/users/new", userController.newView);
+app.post("/users/create", userController.create, userController.redirectView);
 
 // Middleware para manejar los errores
 app.use(errorController.pageNotFoundError);
