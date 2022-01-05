@@ -43,6 +43,12 @@ app.get("/users/new", userController.newView);
 app.post("/users/create", userController.create, userController.redirectView);
 
 router.get("/users/get/:id", userController.show, userController.showView);
+router.get("/users/:id/edit", userController.edit);
+router.put(
+  "/users/:id/update",
+  userController.update,
+  userController.redirectView
+);
 
 // Middleware para manejar los errores
 app.use(errorController.pageNotFoundError);

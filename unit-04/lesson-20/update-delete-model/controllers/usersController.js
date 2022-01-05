@@ -77,6 +77,48 @@ const showView = (req, res) => {
   res.render("users/show");
 };
 
+// Prepara la información del usuario a editar
+const edit = (req, res, next) => {
+  let userId = req.params.id;
+  User.findById(userId)
+    .then((user) => {
+      res.render("users/edit", {
+        user,
+      });
+    })
+    .catch((error) => {
+      console.log(`Error fetching user by ID: ${error.message}`);
+      next(error);
+    });
+};
+
+// Acción con fin de actualizar un usuario en nuestra BD
+const update = (req, res, next) => {
+  let userId = req.params.id;
+  let userParams = {
+    name: {
+      first: req.body.first,
+      last: req.body.last,
+    },
+    email: req.body.email,
+    password: req.body.password,
+    zipCode: req.body.zipCode,
+  };
+
+  User.findByIdAndUpdate(userId, {
+    $set: userParams,
+  })
+    .then((user) => {
+      res.locals.redirect = `/users/get/${userId}`;
+      res.locals.user = user;
+      next();
+    })
+    .catch((error) => {
+      console.log(`Error updating user by ID: ${error.message}`);
+      next(error);
+    });
+};
+
 module.exports = {
   index,
   indexView,
@@ -85,4 +127,6 @@ module.exports = {
   redirectView,
   show,
   showView,
+  edit,
+  update,
 };
