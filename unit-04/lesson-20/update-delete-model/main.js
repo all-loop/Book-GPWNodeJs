@@ -1,5 +1,6 @@
 const express = require("express");
 const layouts = require("express-ejs-layouts");
+const methodOverride = require("method-override");
 
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -26,6 +27,12 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(layouts);
 app.use("/", router);
+// configuramos que router use methodOverride como middleware.
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
 // Enrutamiento (middleware) de la aplicación
 app.get("/", (req, res) => {
