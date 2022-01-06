@@ -49,6 +49,11 @@ router.put(
   userController.update,
   userController.redirectView
 );
+router.delete(
+  "/users/:id/delete",
+  userController.deleteUser,
+  userController.redirectView
+);
 
 // Middleware para manejar los errores
 app.use(errorController.pageNotFoundError);
