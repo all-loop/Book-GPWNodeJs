@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="col-sm-6"><img src="/images/graph.png" alt="" /></div>
+  <div class="col-sm-6">
+    <h1>Contact to us!</h1>
+    <p>Enter the following information:</p>
+    <form action="/subscribe" method="post">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="name">Email:</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email@some.com"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="zipCode">Zip Code:</label>
+        <input
+          type="text"
+          name="zipCode"
+          placeholder="Zip Code"
+          pattern="[0-9]{5}"
+          class="form-control"
+        />
+      </div>
+
+      <input type="submit" value="Submit" />
+    </form>
+
+    <p>We'll get back to you soon!</p>
+  </div>
+</div>
