@@ -46,7 +46,7 @@ const userSchema = mongoose.Schema(
 
 // Añadimos un atributo virtual para devolver el nombre
 // completo del usuario
-userSchema.virtual("fullName").get(function () {
+userSchema.virtual("fullname").get(function () {
   return `${this.name.first} ${this.name.last}`;
 });
 
