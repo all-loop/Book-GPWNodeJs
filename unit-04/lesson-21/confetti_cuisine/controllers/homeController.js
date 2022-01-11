@@ -1,34 +1,7 @@
-const courses = [
-  {
-    title: "Event Driven Cakes",
-    cost: 50,
-  },
-  {
-    title: "Asynchronous Artichoke",
-    cost: 25,
-  },
-  {
-    title: "Object Oriented Orange Juice",
-    cost: 10,
-  },
-];
-
-const showCourses = (req, res) => {
-  res.render("courses", {
-    offeredCourses: courses,
-  });
-};
-
-const showSignUp = (req, res) => {
-  res.render("contact");
-};
-
-const postedSignUpForm = (req, res) => {
-  res.render("thanks");
+const index = (req, res) => {
+  res.render("index");
 };
 
 module.exports = {
-  showCourses,
-  showSignUp,
-  postedSignUpForm,
+  index,
 };
