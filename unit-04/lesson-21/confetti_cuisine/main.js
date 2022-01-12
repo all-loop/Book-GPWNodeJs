@@ -64,7 +64,7 @@ router.get(
   subscriberController.index,
   subscriberController.indexView
 );
-router.get("/subscribers/new", subscriberController.newSubscriber);
+router.get("/subscribers/new", subscriberController.newView);
 router.post(
   "/subscribers/create",
   subscriberController.create,
@@ -83,7 +83,7 @@ router.put(
 );
 router.delete(
   "/subscribers/:id/delete",
-  subscriberController.erased,
+  subscriberController.deleteSubscriber,
   subscriberController.redirectView
 );
 
@@ -104,13 +104,13 @@ router.put(
 );
 router.delete(
   "/users/:id/delete",
-  userController.erased,
+  userController.deleteUser,
   userController.redirectView
 );
 
 // Rutas de los cursos
 router.get("/courses", courseController.index, courseController.indexView);
-router.get("/courses/new", courseController.newCourse);
+router.get("/courses/new", courseController.newView);
 router.post(
   "/courses/create",
   courseController.create,
@@ -129,7 +129,7 @@ router.put(
 );
 router.delete(
   "/courses/:id/delete",
-  courseController.erased,
+  courseController.deleteCourse,
   courseController.redirectView
 );
 

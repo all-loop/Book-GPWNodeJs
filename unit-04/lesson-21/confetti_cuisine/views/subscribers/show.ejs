@@ -3,7 +3,7 @@
   <table class="table">
     <tr>
       <th>Name</th>
-      <td><%= subscriber.fullname%></td>
+      <td><%= subscriber.name %></td>
     </tr>
     <tr>
       <th>Email</th>
@@ -30,7 +30,7 @@
   <div>
     <a
       class="button"
-      href="<%= `/subscribers/${subscriber._id}/delete` %>"
+      href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
       onclick="return confirm('Are you sure you want to delete this record?')"
       >Delete Subscriber</a
     >
