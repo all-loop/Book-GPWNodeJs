@@ -1,0 +1,26 @@
+{
+  "name": "session-flashmessages",
+  "version": "1.0.0",
+  "description": "Mejoran el flujo de información en las páginas de nuestra aplicación.",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "express-session": "^1.17.2",
+    "ejs": "^3.1.6",
+    "express": "^4.16.3",
+    "express-ejs-layouts": "^2.5.1",
+    "http-status-codes": "^2.2.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.1.4"
+  }
+}

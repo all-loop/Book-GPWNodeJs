@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div>
+    <h2>Subscribers Table</h2>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subscribers.forEach(subscriber => { %>
+        <tr>
+          <td><%= subscriber.name %></td>
+          <td><%= subscriber.email %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
