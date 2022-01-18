@@ -20,8 +20,12 @@
   </table>
   
   <% if (user.subscribedAccount) { %> 
-    <h4 class="center">This user has a <a href= <%= `/subscribers/${user.subscribedAccount}` %>>subscribed account</a></h4>
+    <h4 class="center">This user has a <a href= <%= `/subscribers/get/${user.subscribedAccount}` %>>subscribed account</a></h4>
   <% } %>
+
+  <p>
+    this user has <%= user.courses.length %> associated course(s)
+  </p>
 
   <div>
     <a class="button" href="/users">View all users</a>
@@ -30,6 +34,6 @@
     <a class="button" href="<%= `/users/${user._id}/edit` %>">Edit User Profile</a>
   </div>
   <div>
-    <a class="button" href="<%= `/users/${user._id}/delete` %>" onclick="return confirm('Are you sure you want to delete this record?')">Delete User</a>
+    <a class="button" href="<%= `/users/${user._id}/delete?_method=DELETE` %>" onclick="return confirm('Are you sure you want to delete this record?')">Delete User</a>
   </div>
 </div>

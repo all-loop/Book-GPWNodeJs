@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
+
+// Importamos otros modelos necesarios
 const Subscriber = require("./subscriber");
 
-const { Schema } = mongoose;
-
-// Esquema asociado al usuario
-const userSchema = Schema(
+const userSchema = mongoose.Schema(
   {
     name: {
       first: {
         type: String,
+        required: true,
         trim: true,
       },
       last: {
@@ -19,7 +19,6 @@ const userSchema = Schema(
     email: {
       type: String,
       required: true,
-      lowercase: true,
       unique: true,
     },
     zipCode: {
@@ -33,30 +32,26 @@ const userSchema = Schema(
     },
     courses: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
       },
     ],
     subscribedAccount: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Subscriber",
     },
   },
-  {
-    // timestamps nos permitira registrar las fechas de
-    // creación y modificación para el objeto.
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-// Creación de un atributo virtual. Un atributo virtual
-// es similar a un propiedad de un esquema a diferencia
-// que no es guardado en la base de datos.
+// Añadimos un atributo virtual para devolver el nombre
+// completo del usuario
 userSchema.virtual("fullname").get(function () {
   return `${this.name.first} ${this.name.last}`;
 });
 
-// Definimos una acción previa (hook) a guardar un nuevo objeto
+// Añadimos un hook para el evento 'save' y asi enlazar
+// previamente a un subscriptor si es el caso.
 userSchema.pre("save", function (next) {
   let user = this;
   if (user.subscribedAccount === undefined) {
@@ -68,7 +63,7 @@ userSchema.pre("save", function (next) {
         next();
       })
       .catch((error) => {
-        console.log(`Error in connecting subscriber: ${error.message}`);
+        console.log(`ERROR in connecting subscriber: ${error.message}`);
         next(error);
       });
   } else {

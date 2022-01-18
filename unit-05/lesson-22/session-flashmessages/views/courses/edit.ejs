@@ -1,0 +1,61 @@
+<div class="container-fluid w-50">
+  <div class="data-form p-2">
+    <h2>Edit course:</h2>
+    <form action=<%= `/courses/${course._id}/update?_method=PUT` %> method="POST">
+      <div class="form-group">
+        <label for="inputFirstName">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="inputTitle"
+          placeholder="Title"
+          required
+          autofocus
+          class="form-control"
+          value="<%= course.title %>"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inputEmail">Description</label>
+        <textarea
+          name="description"
+          id="inputDescription"
+          placeholder="here your description..."
+          rows="4"
+          cols="40"
+          required
+        ><%= course.description %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="inputZipCode">Maximum Students</label>
+        <input
+          type="number"
+          name="maxStudents"
+          min="0"
+          id="inputMaxStudents"
+          required
+          class="form-control"
+          value="<%= course.maxStudents %>"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inputZipCode">Cost</label>
+        <input
+          type="number"
+          name="cost"
+          min="0"
+          id="inputCost"
+          required
+          class="form-control"
+          value="<%= course.cost %>"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
+        Save
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Validando datos con mongoose
+// Añadimos la validación de datos para nuestro modelo
 const subscriberSchema = mongoose.Schema(
   {
     name: {
@@ -26,20 +26,14 @@ const subscriberSchema = mongoose.Schema(
     ],
   },
   {
-    // timestamps nos permitira registrar las fechas de
-    // creación y modificación para el objeto.
     timestamps: true,
   }
 );
 
-// Método de instancia para obtener el nombre completo de un subscriptor.
+// Definimos un método de instancia para obtener la
+// información de un subscriptor
 subscriberSchema.methods.getInfo = function () {
-  return `Name: ${this.name} Email: ${this.email} Zip Code: ${this.zipCode}`;
+  return `Name: ${this.name}, Email: ${this.email}, Zip Code: ${this.zipCode}`;
 };
 
-// Método de instancia para encontrar todos los subscriptores con el mismo Zip Code
-subscriberSchema.methods.findLocalSubscribers = function () {
-  return this.model("Subscriber").find({ zipCode: this.zipCode }).exec();
-};
-
-module.exports = mongoose.model("subscriber", subscriberSchema);
+module.exports = mongoose.model("Subscriber", subscriberSchema);
