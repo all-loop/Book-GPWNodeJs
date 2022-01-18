@@ -11,6 +11,18 @@
     <link rel="stylesheet" href="/css/recipe_app.css" />
   </head>
   <body>
-    <%- include("./partials/navigation") %> <%- body %>
+    <%- include("./partials/navigation") %>
+    <div class="flashes">
+      <% if (flashMessages) { %> <% if (flashMessages.success) { %>
+      <div class="alert alert-success" role="alert">
+        <%= flashMessages.success %>
+      </div>
+      <% } else if ( flashMessages.error) { %>
+      <div class="alet alert-danger" role="alert">
+        <%= flashMessages.error %>
+      </div>
+      <% } %> <% } %>
+    </div>
+    <%- body %>
   </body>
 </html>

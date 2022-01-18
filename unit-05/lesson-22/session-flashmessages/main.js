@@ -10,7 +10,7 @@ const expressSession = require("express-session");
 mongoose.Promise = global.Promise;
 
 // Establecemos la conexión a nuestra base de datos
-mongoose.connect("mongodb://localhost:27017/confetti_cuisine", {
+mongoose.connect("mongodb://localhost:27017/recipe_db", {
   useNewUrlParser: true,
 });
 mongoose.connection.on("open", () => {
