@@ -2,6 +2,9 @@ const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const connectFlash = require("connect-flash");
+const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
 
 // Indicamos a mongoose que usaremos promesas
 mongoose.Promise = global.Promise;
@@ -46,6 +49,27 @@ router.use(express.static("public"));
 // procesamiento de los parámetros codificados en la URL y JSON.
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
+
+// Le indicamos a nuestra aplicación que queremos usar como middleware
+// connect-flash, cookie-parser y express-session
+router.use(cookieParser("secret_passcode"));
+router.use(
+  expressSession({
+    secret: "secret_passcode",
+    cookie: {
+      maxAge: 4000000,
+    },
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+router.use(connectFlash());
+router.use((req, res, next) => {
+  // Variable con la misión de hacer que cada vista
+  // tenga acceso a algún mensaje flash producido.
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 // Configuramos la asistencia de métodos HTTP actualmente
 // no soportados por enlaces o formularios HTML
@@ -134,8 +158,8 @@ router.delete(
 );
 
 // Middleware para manejar los errores
-app.use(errorController.pageNotFoundError);
-app.use(errorController.internalServerError);
+router.use(errorController.pageNotFoundError);
+router.use(errorController.internalServerError);
 
 // Levantando el servidor
 app.listen(app.get("port"), () => {
