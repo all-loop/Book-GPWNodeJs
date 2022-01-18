@@ -13,7 +13,7 @@ const getCourseParams = (body) => {
 };
 
 module.exports = {
-  // index busca todos los cursos
+  // index busca todos los usuarios
   index: (req, res, next) => {
     User.find()
       .then((users) => {
@@ -25,15 +25,15 @@ module.exports = {
         next(error);
       });
   },
-  // indexView renderiza la vista con todos los cursos
+  // indexView renderiza la vista con todos los usuarios
   indexView: (req, res) => {
     res.render("users/index");
   },
-  // newView renderiza la vista para agregar un nuevo curso
+  // newView renderiza la vista para agregar un nuevo usuario
   newUser: (req, res) => {
     res.render("users/new");
   },
-  // create registra un nuevo curso
+  // create registra un nuevo usuario
   create: (req, res, next) => {
     let userParams = getCourseParams(req.body);
     User.create(userParams)
@@ -65,7 +65,7 @@ module.exports = {
       next();
     }
   },
-  // show busca la información de un curso
+  // show busca la información de un usuario
   show: (req, res, next) => {
     let userId = req.params.id;
     User.findById(userId)
@@ -78,7 +78,7 @@ module.exports = {
         next(error);
       });
   },
-  // showView renderiza la información de un curso
+  // showView renderiza la información de un usuario
   showView: (req, res) => {
     res.render("users/show");
   },
@@ -96,7 +96,7 @@ module.exports = {
         next(error);
       });
   },
-  // update es la acción que nos permite actualizar la información de un subscriptor
+  // update es la acción que nos permite actualizar la información de un usuariio
   update: (req, res, next) => {
     let userId = req.params.id;
     let userParams = getCourseParams(req.body);
@@ -104,20 +104,26 @@ module.exports = {
       $set: userParams,
     })
       .then((user) => {
+        req.flash("success", `user ${user.fullname} update successfully`);
         res.locals.redirect = `/users/get/${userId}`;
         res.locals.course = user;
         next();
       })
       .catch((error) => {
-        console.log(`Error updating user by ID: ${error.message}`);
-        next(error);
+        req.flas(
+          "error",
+          `Failed to update user account because: ${error.message}`
+        );
+        req.locals.redirect = `/users/${userId}/edit`;
+        next();
       });
   },
-  // delete acción que eliminar un subscriptor
+  // delete acción que eliminar un usuario
   deleteUser: (req, res, next) => {
     let userId = req.params.id;
     User.findByIdAndDelete(userId)
       .then(() => {
+        req.flash("success", "User delete successfully!");
         res.locals.redirect = "/users";
         next();
       })

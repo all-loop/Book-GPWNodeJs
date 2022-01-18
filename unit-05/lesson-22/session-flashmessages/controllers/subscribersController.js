@@ -36,13 +36,22 @@ module.exports = {
     let subscriberParams = getSubscriberParams(req.body);
     Subscriber.create(subscriberParams)
       .then((subscriber) => {
+        req.flash(
+          "success",
+          `${subscriber.email}'s account created successfully!`
+        );
         res.locals.redirect = "/subscribers";
         res.locals.subscriber = subscriber;
         next();
       })
       .catch((error) => {
         console.log(`Error saving subscriber: ${error.message}`);
-        next(error);
+        req.flash(
+          "error",
+          `Failed to create subscriber account because: ${error.message}`
+        );
+        res.locals.redirect = "/subscribers/new";
+        next();
       });
   },
   // redirectView renderiza la vista definida en res.locals.redirect
@@ -93,13 +102,16 @@ module.exports = {
       $set: subscriberParams,
     })
       .then((subscriber) => {
+        req.flash("success", `${subscriberParams.email} update successfully!`);
         res.locals.redirect = `/subscribers/get/${subscriberId}`;
         res.locals.subscriber = subscriber;
         next();
       })
       .catch((error) => {
         console.log(`Error updating subscriber by ID: ${error.message}`);
-        next(error);
+        res.locals.redirect = `/subscribers/${subscriberId}/edit`;
+        req.flash("error", `Failed to edit ${subscriberParams.email} account!`);
+        next();
       });
   },
   // delete acción que eliminar un subscriptor
@@ -107,6 +119,7 @@ module.exports = {
     let subscriberId = req.params.id;
     Subscriber.findByIdAndDelete(subscriberId)
       .then(() => {
+        req.flash("success", "Subscribers delete successfully!");
         res.locals.redirect = "/subscribers";
         next();
       })

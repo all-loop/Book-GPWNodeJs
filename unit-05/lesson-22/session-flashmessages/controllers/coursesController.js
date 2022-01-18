@@ -35,13 +35,16 @@ module.exports = {
     let courseParams = getCourseParams(req.body);
     Course.create(courseParams)
       .then((course) => {
+        req.flash("success", `${course.title} create successfully!`);
         res.locals.redirect = "/courses";
         res.locals.course = course;
         next();
       })
       .catch((error) => {
         console.log(`Error saving course: ${error.message}`);
-        next(error);
+        req.flash("error", `Failed to create course because: ${error.message}`);
+        res.locals.redirect = "/courses/new";
+        next();
       });
   },
   // redirectView renderiza la vista definida en res.locals.redirect
@@ -92,12 +95,15 @@ module.exports = {
       $set: courseParams,
     })
       .then((course) => {
+        req.flash("success", `${courseParams.title} update successfully!`);
         res.locals.redirect = `/courses/get/${courseId}`;
         res.locals.course = course;
         next();
       })
       .catch((error) => {
         console.log(`Error updating course by ID: ${error.message}`);
+        req.flash("error", `Failed to edit course ${courseParams.title}!`);
+        res.locals.redirect = `/courses/${courseId}/edit`;
         next(error);
       });
   },
@@ -106,6 +112,7 @@ module.exports = {
     let courseId = req.params.id;
     Course.findByIdAndDelete(courseId)
       .then(() => {
+        req.flash("success", "Course delete successfully!");
         res.locals.redirect = "/courses";
         next();
       })
