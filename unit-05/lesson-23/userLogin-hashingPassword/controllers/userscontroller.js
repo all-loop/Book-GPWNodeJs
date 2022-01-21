@@ -132,4 +132,33 @@ module.exports = {
         next(error);
       });
   },
+  // Acción que renderiza la página para iniciar sesión
+  login: (req, res) => {
+    res.render("users/login");
+  },
+  // Acción que usamos para autenticar a un usuario
+  authenticate: (req, res, next) => {
+    User.findOne({
+      email: req.body.email,
+    })
+      .then((user) => {
+        if (user && user.password === req.body.password) {
+          res.locals.redirect = `/users/get/${user._id}`;
+          req.flash("success", `${user.fullname}'s logged successfully!`);
+          res.locals.user = user;
+          next();
+        } else {
+          req.flash(
+            "error",
+            "Your account or password is incorrect. Please try again or contact your system administrator!"
+          );
+          res.locals.redirect = "/users/login";
+          next();
+        }
+      })
+      .catch((error) => {
+        console.log(`Error logging in user: ${error.message}`);
+        next(error);
+      });
+  },
 };

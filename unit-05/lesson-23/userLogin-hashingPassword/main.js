@@ -24,6 +24,7 @@ const errorController = require("./controllers/errorController");
 const subscriberController = require("./controllers/subscribersController");
 const courseController = require("./controllers/coursesController");
 const userController = require("./controllers/usersController");
+const usersController = require("./controllers/usersController");
 
 // Creación del servidor
 const app = express();
@@ -118,6 +119,12 @@ router.post(
   "/users/create",
   userController.create,
   userController.redirectView
+);
+router.get("/users/login", userController.login);
+router.post(
+  "/users/login",
+  userController.authenticate,
+  usersController.redirectView
 );
 router.get("/users/get/:id", userController.show, userController.showView);
 router.get("/users/:id/edit", userController.edit);
