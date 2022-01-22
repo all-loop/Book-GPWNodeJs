@@ -142,11 +142,21 @@ module.exports = {
       email: req.body.email,
     })
       .then((user) => {
-        if (user && user.password === req.body.password) {
-          res.locals.redirect = `/users/get/${user._id}`;
-          req.flash("success", `${user.fullname}'s logged successfully!`);
-          res.locals.user = user;
-          next();
+        if (user) {
+          user.passwordComparison(req.body.password).then((passwordsMatch) => {
+            if (passwordsMatch) {
+              res.locals.redirect = `/users/get/${user._id}`;
+              req.flash("success", `${user.fullname}'s logged successfully!`);
+              res.locals.user = user;
+            } else {
+              req.flash(
+                "error",
+                "Failed to log in user account: user o password incorrect."
+              );
+              res.locals.redirect = "/users/login";
+            }
+            next();
+          });
         } else {
           req.flash(
             "error",
