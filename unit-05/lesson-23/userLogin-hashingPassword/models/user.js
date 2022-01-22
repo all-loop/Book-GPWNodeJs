@@ -80,7 +80,16 @@ userSchema.pre("save", function (next) {
     .hash(user.password, 10)
     .then((hash) => {
       user.password = hash;
-      next();
+      bcrypt
+        .hash(user.email, 10)
+        .then((hash) => {
+          user.email = hash;
+          next();
+        })
+        .catch((error) => {
+          console.log(`Error in hashing email: ${error.message}`);
+          next(error);
+        });
     })
     .catch((error) => {
       console.log(`Error in hashing password: ${error.message}`);
