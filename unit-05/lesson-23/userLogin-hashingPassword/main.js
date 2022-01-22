@@ -5,6 +5,7 @@ const methodOverride = require("method-override");
 const connectFlash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const expressValidator = require("express-validator");
 
 // Indicamos a mongoose que usaremos promesas
 mongoose.Promise = global.Promise;
@@ -50,6 +51,11 @@ router.use(express.static("public"));
 // procesamiento de los parámetros codificados en la URL y JSON.
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
+
+// Le indicamos a nuestra aplicación que usaremos middlewares
+// de validación por medio de express-validator (debe ser
+// declarado luego de parsear nuestra solicitud entrante)
+router.use(expressValidator());
 
 // Le indicamos a nuestra aplicación que queremos usar como middleware
 // connect-flash, cookie-parser y express-session
@@ -117,6 +123,7 @@ router.get("/users", userController.index, userController.indexView);
 router.get("/users/new", userController.newUser);
 router.post(
   "/users/create",
+  userController.validate,
   userController.create,
   userController.redirectView
 );
