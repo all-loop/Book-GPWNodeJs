@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const passportLocalMessage = require("passport-local-mongoose");
 
 // Importamos otros modelos necesarios
 const Subscriber = require("./subscriber");
@@ -27,10 +28,10 @@ const userSchema = mongoose.Schema(
       min: [10000, "Zip code too short"],
       max: 99999,
     },
-    password: {
-      type: String,
-      required: true,
-    },
+    // password: {
+    //   type: String,
+    //   required: true,
+    // },
     courses: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -72,34 +73,40 @@ userSchema.pre("save", function (next) {
   }
 });
 
-userSchema.pre("save", function (next) {
-  let user = this;
+// userSchema.pre("save", function (next) {
+//   let user = this;
 
-  // Hasheando la password del usuario creado
-  bcrypt
-    .hash(user.password, 10)
-    .then((hash) => {
-      user.password = hash;
-      bcrypt
-        .hash(user.email, 10)
-        .then((hash) => {
-          user.email = hash;
-          next();
-        })
-        .catch((error) => {
-          console.log(`Error in hashing email: ${error.message}`);
-          next(error);
-        });
-    })
-    .catch((error) => {
-      console.log(`Error in hashing password: ${error.message}`);
-      next(error);
-    });
-});
+//   // Hasheando la password del usuario creado
+//   bcrypt
+//     .hash(user.password, 10)
+//     .then((hash) => {
+//       user.password = hash;
+//       bcrypt
+//         .hash(user.email, 10)
+//         .then((hash) => {
+//           user.email = hash;
+//           next();
+//         })
+//         .catch((error) => {
+//           console.log(`Error in hashing email: ${error.message}`);
+//           next(error);
+//         });
+//     })
+//     .catch((error) => {
+//       console.log(`Error in hashing password: ${error.message}`);
+//       next(error);
+//     });
+// });
 // Compara el password del usuariio con el password almacenado en la BD
-userSchema.methods.passwordComparison = function (inputPassword) {
-  let user = this;
-  return bcrypt.compare(inputPassword, user.password);
-};
+// userSchema.methods.passwordComparison = function (inputPassword) {
+//   let user = this;
+//   return bcrypt.compare(inputPassword, user.password);
+// };
+
+// Añadiendo passport-local-mongoose como plugin a nuestro
+// esquema user.
+userSchema.plugin(passportLocalMessage, {
+  usernameField: "email",
+});
 
 module.exports = mongoose.model("User", userSchema);

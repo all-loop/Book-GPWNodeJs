@@ -6,6 +6,7 @@ const connectFlash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const expressValidator = require("express-validator");
+const passport = require("passport");
 
 // Indicamos a mongoose que usaremos promesas
 mongoose.Promise = global.Promise;
@@ -26,6 +27,7 @@ const subscriberController = require("./controllers/subscribersController");
 const courseController = require("./controllers/coursesController");
 const userController = require("./controllers/usersController");
 const usersController = require("./controllers/usersController");
+const User = require("./models/user");
 
 // Creación del servidor
 const app = express();
@@ -85,6 +87,16 @@ router.use(
     methods: ["GET", "POST"],
   })
 );
+
+// Lógica asociada a passport
+// Inicializamos passport
+router.use(passport.initialize());
+// Configuramos passport para que use sesiones en express
+router.use(passport.session());
+// Configuramos la estrategia que usaremos
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Enrutamiento
 router.get("/", homeController.index);
