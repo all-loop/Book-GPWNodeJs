@@ -180,4 +180,11 @@ module.exports = {
       }
     });
   },
+  // Acción para cerrar la sesión de un usuario en nuestro sitio web.
+  logout: (req, res, next) => {
+    req.logout();
+    req.flash("success", "You have been logged out!");
+    res.locals.redirect = "/";
+    next();
+  },
 };

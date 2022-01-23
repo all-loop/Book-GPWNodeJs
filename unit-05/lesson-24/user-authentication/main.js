@@ -143,6 +143,7 @@ router.post(
   userController.redirectView
 );
 router.get("/users/login", userController.login);
+router.get("/users/logout", userController.logout, userController.redirectView);
 router.post("/users/login", userController.authenticate);
 router.get("/users/get/:id", userController.show, userController.showView);
 router.get("/users/:id/edit", userController.edit);
