@@ -1,3 +1,4 @@
+const passport = require("passport");
 const User = require("../models/user");
 
 const getCourseParams = (body) => {
@@ -142,40 +143,14 @@ module.exports = {
     res.render("users/login");
   },
   // Acción que usamos para autenticar a un usuario
-  authenticate: (req, res, next) => {
-    User.findOne({
-      email: req.body.email,
-    })
-      .then((user) => {
-        if (user) {
-          user.passwordComparison(req.body.password).then((passwordsMatch) => {
-            if (passwordsMatch) {
-              res.locals.redirect = `/users/get/${user._id}`;
-              req.flash("success", `${user.fullname}'s logged successfully!`);
-              res.locals.user = user;
-            } else {
-              req.flash(
-                "error",
-                "Failed to log in user account: user o password incorrect."
-              );
-              res.locals.redirect = "/users/login";
-            }
-            next();
-          });
-        } else {
-          req.flash(
-            "error",
-            "Your account or password is incorrect. Please try again or contact your system administrator!"
-          );
-          res.locals.redirect = "/users/login";
-          next();
-        }
-      })
-      .catch((error) => {
-        console.log(`Error logging in user: ${error.message}`);
-        next(error);
-      });
-  },
+  // Llamamos a passport para autenticar al usuario vía una estrategia local.
+  authenticate: passport.authenticate("local", {
+    // configuramos los mensajes flash y sus redirecciones asociadas según el estado de autenticación del usuario.
+    failureRedirect: "/users/login",
+    failureFlash: "Failed to login.",
+    successRedirect: "/",
+    successFlash: "Logged in!",
+  }),
   // Middleware validador
   validate: (req, res, next) => {
     req
