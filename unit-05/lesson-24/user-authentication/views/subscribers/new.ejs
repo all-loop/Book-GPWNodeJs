@@ -1,0 +1,47 @@
+<div class="container-fluid w-50">
+  <div class="data-form p-2">
+    <h2>Create a new subscriber:</h2>
+    <form action="/subscribers/create" method="POST">
+      <div class="form-group">
+        <label for="inputFirstName">Name</label>
+        <input
+          type="text"
+          name="name"
+          id="inputName"
+          placeholder="Name"
+          required
+          autofocus
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inputEmail">Email address</label>
+        <input
+          type="email"
+          name="email"
+          id="inputEmail"
+          placeholder="Email address"
+          required
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inputZipCode">Zip Code</label>
+        <input
+          type="text"
+          name="zipCode"
+          id="inputZipCode"
+          pattern="[0-9]{5}"
+          placeholder="Zip Code"
+          required
+          class="form-control"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
+        Create
+      </button>
+    </form>
+  </div>
+</div>

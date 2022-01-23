@@ -1,0 +1,58 @@
+<div class="container-fluid w-50">
+  <div class="data-form p-2">
+    <h2>Create a new course:</h2>
+    <form action="/courses/create" method="POST">
+      <div class="form-group">
+        <label for="inputFirstName">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="inputTitle"
+          placeholder="Title"
+          required
+          autofocus
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inputEmail">Description</label>
+        <textarea
+          name="description"
+          id="inputDescription"
+          placeholder="here your description..."
+          rows="4"
+          cols="40"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="inputZipCode">Maximum Students</label>
+        <input
+          type="number"
+          name="maxStudents"
+          min="0"
+          id="inputMaxStudents"
+          required
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inputZipCode">Cost</label>
+        <input
+          type="number"
+          name="cost"
+          min="0"
+          id="inputCost"
+          required
+          class="form-control"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
+        Create
+      </button>
+    </form>
+  </div>
+</div>

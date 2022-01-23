@@ -1,0 +1,32 @@
+<div class="container-fluid w-50">
+  <div class="data-form p-2">
+    <h2>Login:</h2>
+    <form action="/users/login" method="POST">
+      <div class="form-group">
+        <label for="inputEmail"> Email address </label>
+        <input
+          type="email"
+          name="email"
+          id="inputEmail"
+          placeholder="Email address"
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inputPassword"> Password </label>
+        <input
+          type="password"
+          name="password"
+          id="inputPassword"
+          placeholder="Password"
+          required
+          class="form-control"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
+        Login
+      </button>
+    </form>
+  </div>
+</div>
