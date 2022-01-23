@@ -72,21 +72,6 @@ router.use(
     saveUninitialized: false,
   })
 );
-router.use(connectFlash());
-router.use((req, res, next) => {
-  // Variable con la misión de hacer que cada vista
-  // tenga acceso a algún mensaje flash producido.
-  res.locals.flashMessages = req.flash();
-  next();
-});
-
-// Configuramos la asistencia de métodos HTTP actualmente
-// no soportados por enlaces o formularios HTML
-router.use(
-  methodOverride("_method", {
-    methods: ["GET", "POST"],
-  })
-);
 
 // Lógica asociada a passport
 // Inicializamos passport
@@ -97,6 +82,24 @@ router.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+router.use(connectFlash());
+router.use((req, res, next) => {
+  // Variable con la misión de hacer que cada vista
+  // tenga acceso a algún mensaje flash producido.
+  res.locals.flashMessages = req.flash();
+  res.locals.loggedIn = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  next();
+});
+
+// Configuramos la asistencia de métodos HTTP actualmente
+// no soportados por enlaces o formularios HTML
+router.use(
+  methodOverride("_method", {
+    methods: ["GET", "POST"],
+  })
+);
 
 // Enrutamiento
 router.get("/", homeController.index);
