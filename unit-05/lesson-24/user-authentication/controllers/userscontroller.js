@@ -41,25 +41,25 @@ module.exports = {
     }
 
     let userParams = getCourseParams(req.body);
-    User.create(userParams)
-      .then((user) => {
+    let newUser = new User(userParams);
+
+    User.register(newUser, req.body.password, (error, user) => {
+      if (user) {
         req.flash(
           "success",
           `${user.fullname}'s account created successfully!`
         );
         res.locals.redirect = "/users";
-        res.locals.user = user;
         next();
-      })
-      .catch((error) => {
-        console.log(`Error saving user: ${error.message}`);
-        res.locals.redirect = "/users/new";
+      } else {
         req.flash(
           "error",
-          `Failed to create user account because: ${error.message}`
+          `Failed to create user account because ${error.message}`
         );
+        res.locals.redirect = "/users/new";
         next();
-      });
+      }
+    });
   },
   // redirectView renderiza la vista definida en res.locals.redirect
   redirectView: (req, res, next) => {
